@@ -1,0 +1,22 @@
+//create sequence diagram for user creates a new note using the single-page version of the app "https://studies.cs.helsinki.fi/exampleapp/spa".
+
+
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>browser: User types a new note in the text field (SPA)
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    %% The browser sends the new note data asynchronously to the server (AJAX call)
+    activate server
+    server-->>browser: 201 Created (Note saved)
+    deactivate server
+
+    Note right of browser: The SPA updates the notes view without a full page reload
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: Updated JSON data (including the new note)
+    deactivate server
+
+    Note right of browser: The SPA re-renders the notes dynamically with the new one
